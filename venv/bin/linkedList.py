@@ -109,21 +109,3 @@ class LinkedList:
             cur_node=cur_node.next
         print("Nothing to delete, data not found in list")
         return
-
-
-llist=LinkedList()
-llist.print_list()
-llist.append("A")
-llist.append("B")
-llist.append("C")
-llist.append("D")
-llist.print_list()
-llist.delete_node("C")
-llist.print_list()
-llist.delete_node("x")
-llist.print_list()
-llist.delete_node("A")
-llist.print_list()
-
-
-
