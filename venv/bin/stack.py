@@ -1,3 +1,15 @@
+"""
+performs regular stack operations using list
+
+push() - to add items to stack
+pop() - to delete item on the top
+is_empty() - to check if stack is empty
+peek() - to see the item on the top
+get_stack() - to return all items on stack
+
+"""
+
+
 class Stack():
     def __init__(self):
         self.items = []
