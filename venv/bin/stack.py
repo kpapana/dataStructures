@@ -10,7 +10,7 @@ get_stack() - to return all items on stack
 """
 
 
-class Stack():
+class Stack:
     def __init__(self):
         self.items = []
 
