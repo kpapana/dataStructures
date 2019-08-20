@@ -109,3 +109,11 @@ class LinkedList:
             cur_node=cur_node.next
         print("Nothing to delete, data not found in list")
         return
+
+    def len_linkedlist(self):
+        cur_node=self.head
+        count=0
+        while cur_node:
+            count += 1
+            cur_node=cur_node.next
+        return count
