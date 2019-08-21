@@ -28,20 +28,24 @@ class HashTable:
         self.size = 10
         self.hashmap = [[] for i in range(0, self.size)]
         self.enable_rehash = False
+        self.__DIVIDE_FACTOR = 3
+        self.__MULTIPLIER = 3
+        self.__KEYERROR = "Key {} not found in hash table"
 
     def hash_func(self, key):
         hashed_key = hash(key) % self.size
         return hashed_key
 
     def set(self, key, value):
-        if self.__get_size() >= (self.size-(self.size//3)):# check if hash table is filled atleast 2/3rd of total size
+        # check if hash table is filled atleast 2/3rd of total size
+        if self.__get_size() >= (self.size-(self.size//self.__DIVIDE_FACTOR)):
             self.__rehash()
         hashed_key = self.hash_func(key)
         key_exists = False
         slot = self.hashmap[hashed_key]
         i = 0
         for i, kv in enumerate(slot):
-            k, v = kv
+            k = kv[0]
             if key == k:
                 key_exists = True
                 break
@@ -57,41 +61,41 @@ class HashTable:
             k, v = kv
             if key == k:
                 return v
-        raise KeyError("Key {} not found in hash table".format(key))
+        raise KeyError(self.__KEYERROR.format(key))
 
     def delete_key(self, key):
         hashed_key = self.hash_func(key)
         slot = self.hashmap[hashed_key]
-        for i,kv in enumerate(slot):
-            k,v = kv
+        for i, kv in enumerate(slot):
+            k, v = kv
             if k == key:
                 slot.pop(i)
                 return True
-        raise KeyError('Key %s not found in hash table'.join(key))
+        raise KeyError(self.__KEYERROR.format(key))
 
     def is_keyExists(self, key):
-        hashed_key=self.hash_func(key)
-        slot=self.hashmap[hashed_key]
+        hashed_key = self.hash_func(key)
+        slot = self.hashmap[hashed_key]
         if slot is not None:
             for kv in slot:
-                k=kv[0]
-                if k==key:
+                k = kv[0]
+                if k == key:
                     return True
         return False
-        
+
     def __rehash(self):
-        self.size = self.size*3
-        temp_hashmap=[[] for i in range(0,self.size)]
+        self.size = self.size*self.__MULTIPLIER
+        temp_hashmap = [[] for i in range(0, self.size)]
         for slot in self.hashmap:
             if slot is not None:
                 for kv in slot:
-                    key,value = kv
+                    key, value = kv
                     hashed_key = self.hash_func(key)
                     key_exists = False
                     new_slot = temp_hashmap[hashed_key]
                     i = 0
                     for i, kv in enumerate(new_slot):
-                        k, v = kv
+                        k = kv[0]
                         if key == k:
                             key_exists = True
                             break
@@ -99,10 +103,10 @@ class HashTable:
                         new_slot[i] = (key, value)
                     else:
                         new_slot.append((key, value))
-        self.hashmap=temp_hashmap
+        self.hashmap = temp_hashmap
 
     def __get_size(self):
-        occup_size=0
+        occup_size = 0
         for slot in self.hashmap:
             if slot is not None:
                 occup_size += len(slot)
