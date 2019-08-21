@@ -64,7 +64,6 @@ class HashTable:
         raise KeyError('Key %s not found in hash table'.join(key))
         
     def __rehash(self):
-        print("in rehash, current occupied size of hashtabe is {} and total space is {}".format(self.__get_size(),self.size))
         self.size = self.size*3
         temp_hashmap=[[] for i in range(0,self.size)]
         for slot in self.hashmap:
@@ -85,7 +84,6 @@ class HashTable:
                     else:
                         new_slot.append((key, value))
         self.hashmap=temp_hashmap
-        print(self.hashmap)
 
     def __get_size(self):
         occup_size=0
