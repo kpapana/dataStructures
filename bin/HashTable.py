@@ -1,15 +1,21 @@
 """
 Author : Karthik Papana
 
-Implementation of HASH table in Python
-This class uses python's default hash() function to calculate the index for hash
+Implementation of hash table in Python
+This class uses python's default hash() function to calculate the prehash which is further used in index calculation
 It uses separate chaining method for conflict resolution
 
-hash_func() - return the hashed key values of input key
-set() - adds key, value pairs to the hash table
-get() - gets corresponding value of key input
-__rehash() - it should automatically increase the size of hash table
-__get_size() - returns size of hash table. Later it will be used to decide if rehashing is required
+hash_func()     - return the hashed key values of input key
+set()           - adds key, value pairs to the hash table
+get()           - gets corresponding value of key input
+delete_key()    - deletes the given key and raises keyError if key not found. Use only if you know that key exists
+is_keyExists()  - returns true if give key exists else false
+__rehash()      - it should automatically increase the size of hash table
+__get_size()    - returns size of hash table. Later it will be used to decide if rehashing is required
+
+Usage:
+    h=HashTable()
+    h[<key>]=<value>
 
 TODO: Take conflict resolution method as input and perform corresponding resolution.
 TODO: Take input to define rehashing method. It can choose between all at once rehashing or incremental rehashing
@@ -62,6 +68,16 @@ class HashTable:
                 slot.pop(i)
                 return True
         raise KeyError('Key %s not found in hash table'.join(key))
+
+    def is_keyExists(self, key):
+        hashed_key=self.hash_func(key)
+        slot=self.hashmap[hashed_key]
+        if slot is not None:
+            for kv in slot:
+                k=kv[0]
+                if k==key:
+                    return True
+        return False
         
     def __rehash(self):
         self.size = self.size*3
